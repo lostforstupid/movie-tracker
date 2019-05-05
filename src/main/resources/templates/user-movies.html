@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <link rel="stylesheet" type="text/css" href="/css/reset.css">
+  <link rel="stylesheet" type="text/css" href="/css/movies.css">
+  <script th:inline="javascript">
+    var data = [[${data}]];
+  </script>
+</head>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  <a href="/">Main page</a>
+
+  <div id="app"></div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/user-movies.js"></script>
+</body>
+</html>

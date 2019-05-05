@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit a movie</title>
+  <link rel="stylesheet" type="text/css" href="/css/reset.css">
+  <link rel="stylesheet" type="text/css" href="/css/movies.css">
+</head>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  <div>
+    <form id="add-form" @submit.prevent="processForm">
+
+      <label>Name</label><br>
+      <input type="text" name="name" v-model="name"><br>
+
+      <label>Description</label><br>
+      <input type="text" name="description" v-model="description"><br>
+
+      <label>File</label><br>
+      <input type="file" name="poster" ref="file" @change="handleFileUpload"><br>
+      <br>
+
+      <input type="submit" value="Add">
+
+    </form>
+  </div>
+
+  <a href="/">Go back to movie list</a>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/edit-movie.js"></script>
+</body>
+</html>

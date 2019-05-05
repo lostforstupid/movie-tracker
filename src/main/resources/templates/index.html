@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Movies</title>
+  <link rel="stylesheet" type="text/css" href="/css/reset.css"/>
+  <link rel="stylesheet" type="text/css" href="/css/movies.css"/>
+  <script th:inline="javascript">
+    let data = [[${data}]];
+  </script>
+</head>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  <div>
+    <h1>Hello, [[${data.user.name}]]</h1>
+  </div>
+
+  <a href="/edit">Add a movie</a>
+  <a href="/library">My movie library</a>
+
+  <div id="app"></div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/movies.js"></script>
+</body>
+</html>
