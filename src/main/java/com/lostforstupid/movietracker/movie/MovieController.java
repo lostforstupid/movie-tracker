@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -19,13 +21,18 @@ public class MovieController {
   private final MovieService movieService;
 
   @GetMapping
-  public List<MovieView> getAllMovies() {
-    return movieService.getAllMovies();
+  public List<MovieView> getAllMovies(@RequestParam String userId) {
+    return movieService.getAllMovies(userId);
   }
 
   @PostMapping
   public Movie createNewMovie(MovieForm movieForm) throws Exception {
-    return movieService.save(movieForm);
+    return movieService.create(movieForm);
+  }
+
+  @PutMapping("/{id}")
+  public Movie updateMovie(@PathVariable String id, MovieForm movieForm) throws Exception {
+    return movieService.update(id, movieForm);
   }
 
   @DeleteMapping("/{id}")

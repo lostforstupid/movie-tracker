@@ -13,4 +13,5 @@ public class MovieView {
   private String name;
   private String description;
   private byte[] poster;
+  boolean isInUserLibrary;
 }

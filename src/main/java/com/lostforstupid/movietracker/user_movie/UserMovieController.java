@@ -31,9 +31,4 @@ public class UserMovieController {
   public void removeMovieFromMovieLibrary(@PathVariable String userId, @PathVariable String movieId) throws Exception {
     userMovieService.removeMovieFromUserLibrary(userId, movieId);
   }
-
-  @GetMapping("/{userId}/exists/{movieId}")
-  public boolean isMovieAlreadyInLibrary(@PathVariable String userId, @PathVariable String movieId) {
-    return userMovieService.isMovieInUserLibrary(userId, movieId);
-  }
 }

@@ -3,8 +3,7 @@ Vue.component('movie-view', {
   template: '<div class="movie">'
   + '<img :src="getImageSource">'
   + '<p>{{ movie.name }}</p>'
-  // + '<button v-if="checkIfMovieInLibrary() === false" @click="addToUserLibrary()">Add to library</button>'
-  + '<button @click="addToUserLibrary()">Add to library</button>'
+  + '<button v-if="ifMovieInLibrary" @click="addToUserLibrary()">Add to library</button>'
   + '<br>'
   + '<button @click="deleteMovie()">Delete</button>'
   + '</div>'
@@ -14,11 +13,6 @@ Vue.component('movie-view', {
       axios.delete(MOVIES_URL + "/" + this.movie.id);
       window.location.reload();
     },
-    checkIfMovieInLibrary: function () {
-      axios.get(LIBRARY_URL + "/" + data.user.id
-          + CHECK_IF_EXISTS_URL + this.movie.id)
-      .then(response => { return response.data });
-    },
     addToUserLibrary: function () {
       axios.post(LIBRARY_URL + "/" + data.user.id
           + ADD_TO_LIBRARY_URL + this.movie.id);
@@ -27,6 +21,10 @@ Vue.component('movie-view', {
   computed: {
     getImageSource() {
       return 'data:image/jpeg;base64,' + this.movie.poster;
+    },
+    ifMovieInLibrary() {
+      console.log(this.movie.inUserLibrary);
+      return !(this.movie.inUserLibrary);
     }
   }
 });
@@ -45,7 +43,9 @@ new Vue({
     movies: []
   },
   created: function () {
-    axios.get(MOVIES_URL).then(response => {
+    const params = {userId: data.user.id};
+
+    axios.get(MOVIES_URL, { params }).then(response => {
       let movieList = response.data;
       movieList.forEach(movie => this.movies.push(movie))
     })

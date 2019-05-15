@@ -20,14 +20,29 @@ public class MovieService {
   private final PosterService posterService;
   private final SequenceService sequenceService;
 
-  List<MovieView> getAllMovies() {
+  List<MovieView> getAllMovies(String userId) {
 
     return movieRepository.findAll().stream()
-        .map(movieUtils::convertMovieDomainToView)
+        .map(movie -> movieUtils.convertMovieDomainToView(movie, userId))
         .collect(Collectors.toList());
   }
 
-  Movie save(MovieForm movieForm) throws Exception {
+  Movie create(MovieForm movieForm) throws Exception {
+    return save(movieForm, new Movie());
+  }
+
+  Movie update(String idAsString, MovieForm movieForm) throws Exception {
+
+    Long id = new Long(idAsString);
+
+    Movie movie = movieRepository.findById(id)
+        .orElseThrow(() -> new Exception("Can't update the movie. "
+            + "No movie with id " + id + " found in the database."));
+
+    return save(movieForm, movie);
+  }
+
+  Movie save(MovieForm movieForm, Movie movie) throws Exception {
 
     String name = movieForm.getName();
 
@@ -35,7 +50,6 @@ public class MovieService {
       throw new Exception("Movie name can't be null");
     }
 
-    Movie movie = new Movie();
     movie.setName(name);
     movie.setDescription(movieForm.getDescription());
     movie.setId(sequenceService.generateSequence(Movie.SEQUENCE_NAME));

@@ -26,6 +26,15 @@ public class MainController {
     return "index";
   }
 
+  @GetMapping("/add")
+  public String addMovie(Model model, @AuthenticationPrincipal User user) {
+
+    Map<Object, Object> data = new HashMap<>();
+    data.put(USER, user);
+    model.addAttribute(DATA, data);
+    return "add-movie";
+  }
+
   @GetMapping("/edit")
   public String editMovie(Model model, @AuthenticationPrincipal User user) {
 

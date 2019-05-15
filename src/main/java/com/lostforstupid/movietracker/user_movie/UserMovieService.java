@@ -39,7 +39,7 @@ public class UserMovieService {
     for (UserMovie userMovie : userMovies) {
       Optional<Movie> result = movieRepository.findById(userMovie.getMovieId());
 
-      result.ifPresent(movie -> movies.add(movieUtils.convertMovieDomainToView(movie)));
+      result.ifPresent(movie -> movies.add(movieUtils.convertMovieDomainToView(movie, userId)));
     }
 
     return movies;
@@ -62,11 +62,6 @@ public class UserMovieService {
     userMovie.setId(sequenceService.generateSequence(UserMovie.SEQUENCE_NAME));
 
     return userMovieRepository.save(userMovie);
-  }
-
-  boolean isMovieInUserLibrary(String userId, String movieId) {
-
-    return userMovieRepository.findByUserIdAndMovieId(userId, new Long(movieId)) != null;
   }
 
   void removeMovieFromUserLibrary(String userId, String movieId) throws Exception {
