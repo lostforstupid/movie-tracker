@@ -4,7 +4,7 @@ const MOVIES_URL = '/movies';
 const LIBRARY_URL = '/user-movie';
 const ADD_TO_LIBRARY_URL = "/add/";
 const REMOVE_FROM_LIBRARY_URL = "/remove/";
-const CHECK_IF_EXISTS_URL = "/exists/";
+const UPDATE_STATUS = "/update-status/";
 
 const instance = axios.create({
   baseURL: BASE_URL,

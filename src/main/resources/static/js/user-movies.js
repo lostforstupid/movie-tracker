@@ -3,11 +3,16 @@ Vue.component('movie-view', {
   template: '<div class="movie">'
   + '<img :src="getImageSource">'
   + '<p>{{ movie.name }}</p>'
-  + '<button @click="removeMovieFromLibrary()">Remove</button>'
+  + '<button @click="removeMovieFromLibrary()">Remove</button><br>'
+  + '<button v-if="ifMovieIsWatched" @click="markToWatch()">Mark To Watch</button>'
+  + '<button v-else @click="markWatched()">Mark Watched</button>'
   + '</div>',
   computed: {
     getImageSource() {
       return 'data:image/jpeg;base64,' + this.movie.poster;
+    },
+    ifMovieIsWatched() {
+      return this.movie.status === "WATCHED";
     }
   },
   methods: {
@@ -15,6 +20,16 @@ Vue.component('movie-view', {
       axios.delete(LIBRARY_URL + "/" + data.user.id
           + REMOVE_FROM_LIBRARY_URL + this.movie.id);
       window.location.reload();
+    },
+    markWatched: function () {
+      axios.put(LIBRARY_URL + "/" + data.user.id
+          + UPDATE_STATUS + this.movie.id + "?status=WATCHED");
+      window.location.reload();
+    },
+    markToWatch: function () {
+       axios.put(LIBRARY_URL + "/" + data.user.id
+          + UPDATE_STATUS + this.movie.id + "?status=TO_WATCH");
+       window.location.reload();
     }
   }
 });

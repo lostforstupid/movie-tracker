@@ -3,7 +3,7 @@ package com.lostforstupid.movietracker.user_movie;
 import com.lostforstupid.movietracker.movie.Movie;
 import com.lostforstupid.movietracker.movie.MovieRepository;
 import com.lostforstupid.movietracker.movie.MovieUtils;
-import com.lostforstupid.movietracker.movie.dto.MovieView;
+import com.lostforstupid.movietracker.movie.dto.UserLibraryMovieView;
 import com.lostforstupid.movietracker.sequence.SequenceService;
 import com.lostforstupid.movietracker.user.UserRepository;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 @SuppressWarnings("FieldCanBeLocal")
 @AllArgsConstructor
 @Service
-public class UserMovieService {
+class UserMovieService {
 
   private final UserMovieRepository userMovieRepository;
   private final MovieRepository movieRepository;
@@ -29,17 +29,18 @@ public class UserMovieService {
 
   private final String USER_ID_CRITERIA = "userId";
 
-  List<MovieView> getUserMovies(String userId) {
+  List<UserLibraryMovieView> getUserMovies(String userId) {
 
     List<UserMovie> userMovies = mongoTemplate
         .find(new Query(Criteria.where(USER_ID_CRITERIA).is(userId)), UserMovie.class);
 
-    List<MovieView> movies = new ArrayList<>();
+    List<UserLibraryMovieView> movies = new ArrayList<>();
 
     for (UserMovie userMovie : userMovies) {
       Optional<Movie> result = movieRepository.findById(userMovie.getMovieId());
 
-      result.ifPresent(movie -> movies.add(movieUtils.convertMovieDomainToView(movie, userId)));
+      result.ifPresent(movie ->
+              movies.add(movieUtils.convertMovieDomainToUserLibraryMovieView(movie, userMovie)));
     }
 
     return movies;
@@ -77,6 +78,20 @@ public class UserMovieService {
     }
 
     userMovieRepository.delete(userMovie);
+  }
+
+  void updateStatus(String userId, String movieIdAsString, String statusAsString) throws Exception {
+
+    Long movieId = new Long(movieIdAsString);
+    UserMovieStatus status = UserMovieStatus.valueOf(statusAsString);
+    UserMovie userMovie = userMovieRepository.findByUserIdAndMovieId(userId, movieId);
+
+    if (userMovie == null) {
+        throw new Exception("Can't update movie status, movie wasn't found.");
+    }
+
+    userMovie.setStatus(status);
+    userMovieRepository.save(userMovie);
   }
 
   private void validateIds(String userId, Long movieId) throws Exception {

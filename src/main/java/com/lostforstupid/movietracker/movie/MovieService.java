@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @AllArgsConstructor
 @Service
-public class MovieService {
+class MovieService {
 
   private final MovieRepository movieRepository;
   private final MovieUtils movieUtils;
@@ -28,7 +28,10 @@ public class MovieService {
   }
 
   Movie create(MovieForm movieForm) throws Exception {
-    return save(movieForm, new Movie());
+
+    Movie movie = new Movie();
+    movie.setId(sequenceService.generateSequence(Movie.SEQUENCE_NAME));
+    return save(movieForm, movie);
   }
 
   Movie update(String idAsString, MovieForm movieForm) throws Exception {
@@ -52,7 +55,6 @@ public class MovieService {
 
     movie.setName(name);
     movie.setDescription(movieForm.getDescription());
-    movie.setId(sequenceService.generateSequence(Movie.SEQUENCE_NAME));
 
     MultipartFile poster = movieForm.getPoster();
 

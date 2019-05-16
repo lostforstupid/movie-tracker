@@ -23,7 +23,6 @@ Vue.component('movie-view', {
       return 'data:image/jpeg;base64,' + this.movie.poster;
     },
     ifMovieInLibrary() {
-      console.log(this.movie.inUserLibrary);
       return !(this.movie.inUserLibrary);
     }
   }

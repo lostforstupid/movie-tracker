@@ -5,11 +5,15 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.lostforstupid.movietracker.movie.dto.MovieForm;
 import com.lostforstupid.movietracker.movie.dto.MovieView;
 import com.lostforstupid.movietracker.poster.PosterService;
 import com.lostforstupid.movietracker.sequence.SequenceService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import lombok.SneakyThrows;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,6 +40,7 @@ public class MovieServiceTest {
   private SequenceService sequenceService;
 
   private String userId;
+  private String movieId;
 
   private String movieName1;
   private String movieName2;
@@ -47,6 +52,7 @@ public class MovieServiceTest {
     movieService = spy(movieService);
 
     userId = "testUserId";
+    movieId = "1";
 
     movieName1 = "name1";
     movieName2 = "name2";
@@ -77,5 +83,35 @@ public class MovieServiceTest {
     verify(movieUtils).convertMovieDomainToView(movie2, userId);
     assertEquals(result.get(0), movieView1);
     assertEquals(result.get(1), movieView2);
+  }
+
+  @SneakyThrows
+  @Test
+  public void save() {
+
+    String newName = "newName";
+    String newDescription = "newDescription";
+
+    Movie movie = new Movie(1L, "testName", "testDescription", "testPosterName");
+    MovieForm movieForm = new MovieForm(newName, newDescription, null);
+
+    movieService.save(movieForm, movie);
+
+    verify(movieRepository).save(movie);
+  }
+
+  @SneakyThrows
+  @Test
+  public void delete() {
+
+    Long movieIdAsLong = Long.parseLong(movieId);
+    Movie movie = new Movie(movieIdAsLong, "name", "testDescription", null);
+    Optional<Movie> queryResult = Optional.of(movie);
+
+    when(movieRepository.findById(movieIdAsLong)).thenReturn(queryResult);
+
+    movieService.delete(movieId);
+
+    verify(movieRepository).delete(movie);
   }
 }
