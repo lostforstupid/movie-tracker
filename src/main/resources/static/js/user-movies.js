@@ -35,22 +35,33 @@ Vue.component('movie-view', {
 });
 
 Vue.component('movie-list', {
-  props: ['movies'],
-  template: '<div class="movie-list">'
-  + '<movie-view v-for="movie in movies" :movie="movie" :key="movie.id"/>'
+  props: ['toWatch', 'watched'],
+  template: '<div>'
+  + '<div id="to-watch" class="movie-list">'
+  + '<movie-view v-for="movie in toWatch" :movie="movie" :key="movie.id"/>'
+  + '</div>'
+  + '<div id="watched" class="movie-list">'
+  + '<movie-view v-for="movie in watched" :movie="movie" :key="movie.id"/>'
+  + '</div>'
   + '</div>'
 });
 
 new Vue({
   el: '#app',
-  template: '<movie-list :movies="movies"/>',
+  template: '<movie-list :toWatch="toWatch" :watched="watched"/>',
   data: {
-    movies: []
+    toWatch: [],
+    watched: []
   },
   created: function () {
-    axios.get(LIBRARY_URL + "/" + data.user.id).then(response => {
+    axios.get(LIBRARY_URL + "/" + data.user.id + "/to-watch").then(response => {
       let movieList = response.data;
-      movieList.forEach(movie => this.movies.push(movie))
-    })
+      movieList.forEach(movie => this.toWatch.push(movie))
+    });
+
+    axios.get(LIBRARY_URL + "/" + data.user.id + "/watched").then(response => {
+      let movieList = response.data;
+      movieList.forEach(movie => this.watched.push(movie))
+    });
   }
 });

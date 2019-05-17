@@ -9,6 +9,8 @@ import com.lostforstupid.movietracker.user.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import lombok.AllArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -44,6 +46,23 @@ class UserMovieService {
     }
 
     return movies;
+  }
+
+  List<UserLibraryMovieView> getUserMoviesMarkedWatched(String userId) {
+      return getUserMoviesByStatus(UserMovieStatus.TO_WATCH, userId);
+  }
+
+  List<UserLibraryMovieView> getUserMoviesMarkedToWatch(String userId) {
+      return getUserMoviesByStatus(UserMovieStatus.WATCHED, userId);
+  }
+
+  private List<UserLibraryMovieView> getUserMoviesByStatus(UserMovieStatus movieStatus, String userId) {
+
+    List<UserLibraryMovieView> allUserMovies = getUserMovies(userId);
+
+    return allUserMovies.stream()
+            .filter(userLibraryMovieView -> movieStatus.toString().equals(userLibraryMovieView.getStatus()))
+            .collect(Collectors.toList());
   }
 
   UserMovie addMovieToUserLibrary(String userId, String movieId) throws Exception {

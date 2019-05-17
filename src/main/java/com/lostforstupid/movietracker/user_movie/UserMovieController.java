@@ -18,6 +18,16 @@ public class UserMovieController {
     return userMovieService.getUserMovies(userId);
   }
 
+  @GetMapping("/{userId}/watched")
+  public List<UserLibraryMovieView> getMoviesMarkedWatchedInUserLibrary(@PathVariable String userId) {
+    return userMovieService.getUserMoviesMarkedWatched(userId);
+  }
+
+  @GetMapping("/{userId}/to-watch")
+  public List<UserLibraryMovieView> getMoviesMarkedToWatchInUserLibrary(@PathVariable String userId) {
+    return userMovieService.getUserMoviesMarkedToWatch(userId);
+  }
+
   @PostMapping("/{userId}/add/{movieId}")
   public UserMovie addToUserLibrary(@PathVariable String userId,
                                     @PathVariable String movieId) throws Exception {
