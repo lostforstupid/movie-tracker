@@ -1,5 +1,6 @@
 package com.lostforstupid.movietracker.movie;
 
+import com.lostforstupid.movietracker.exceptions.MovieTrackerException;
 import com.lostforstupid.movietracker.movie.dto.MovieForm;
 import com.lostforstupid.movietracker.movie.dto.MovieView;
 import com.lostforstupid.movietracker.poster.PosterService;
@@ -7,7 +8,10 @@ import com.lostforstupid.movietracker.sequence.SequenceService;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import com.lostforstupid.movietracker.utils.ErrorMessage;
 import lombok.AllArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,6 +23,7 @@ class MovieService {
   private final MovieUtils movieUtils;
   private final PosterService posterService;
   private final SequenceService sequenceService;
+  private final Environment environment;
 
   List<MovieView> getAllMovies(String userId) {
 
@@ -50,7 +55,7 @@ class MovieService {
     String name = movieForm.getName();
 
     if (name == null) {
-      throw new Exception("Movie name can't be null");
+      throw new MovieTrackerException(environment, ErrorMessage.MOVIE_NAME_IS_NULL);
     }
 
     movie.setName(name);
@@ -67,7 +72,7 @@ class MovieService {
     return movieRepository.save(movie);
   }
 
-  void delete(String idAsString) throws Exception {
+  void delete(String idAsString) {
 
     Long id = new Long(idAsString);
     Optional<Movie> movie = movieRepository.findById(id);
@@ -75,7 +80,7 @@ class MovieService {
     if (movie.isPresent()) {
       movieRepository.delete(movie.get());
     } else {
-      throw new Exception("Can't delete movie with id " + id + ", no such id in the database");
+      throw new MovieTrackerException(environment, ErrorMessage.CAN_NOT_DELETE_MOVIE_NO_SUCH_ID);
     }
   }
 }
