@@ -1,13 +1,6 @@
 Vue.component('movie-view', {
   props: ['movie'],
-  template: '<div class="movie">'
-  + '<img :src="getImageSource">'
-  + '<p>{{ movie.name }}</p>'
-  + '<button v-if="ifMovieInLibrary" @click="addToUserLibrary()">Add to library</button>'
-  + '<br>'
-  + '<button @click="deleteMovie()">Delete</button>'
-  + '</div>'
-  + '</div>',
+  template: '#movie-view',
   methods: {
     deleteMovie: function () {
       axios.delete(MOVIES_URL + "/" + this.movie.id);
@@ -30,9 +23,7 @@ Vue.component('movie-view', {
 
 Vue.component('movie-list', {
   props: ['movies'],
-  template: '<div class="movie-list">'
-  + '<movie-view v-for="movie in movies" :movie="movie" :key="movie.id"/>'
-  + '</div>'
+  template: '#movie-list'
 });
 
 new Vue({

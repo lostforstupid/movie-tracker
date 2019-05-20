@@ -17,6 +17,36 @@
 
   <div id="app"></div>
 
+  <template id="movie-list">
+    <div>
+      <h1 class="movie-list-header">To Watch</h1>
+      <br/>
+      <p class="placeholder-text" v-if="isToWatchEmpty">No movies marked to watch in your library</p>
+
+      <div id="to-watch" class="movie-list">
+        <movie-view v-for="movie in toWatch" :movie="movie" :key="movie.id"/>
+      </div>
+
+      <h1 class="movie-list-header">Watched</h1>
+      <br/>
+      <p class="placeholder-text" v-if="isWatchedEmpty">No movies marked watched in your library</p>
+
+      <div id="watched" class="movie-list">
+        <movie-view v-for="movie in watched" :movie="movie" :key="movie.id"/>
+      </div>
+    </div>
+  </template>
+
+  <template id="movie">
+    <div class="movie">
+      <img :src="getImageSource">
+      <p>{{ movie.name }}</p>
+      <button @click="removeMovieFromLibrary()">Remove</button><br>
+      <button v-if="ifMovieIsWatched" @click="markToWatch()">Mark To Watch</button>
+      <button v-else @click="markWatched()">Mark Watched</button>
+    </div>
+  </template>
+
   <script src="/js/api.js"></script>
   <script src="/js/user-movies.js"></script>
 </body>

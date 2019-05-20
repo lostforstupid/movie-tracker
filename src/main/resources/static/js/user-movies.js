@@ -1,12 +1,6 @@
 Vue.component('movie-view', {
   props: ['movie'],
-  template: '<div class="movie">'
-  + '<img :src="getImageSource">'
-  + '<p>{{ movie.name }}</p>'
-  + '<button @click="removeMovieFromLibrary()">Remove</button><br>'
-  + '<button v-if="ifMovieIsWatched" @click="markToWatch()">Mark To Watch</button>'
-  + '<button v-else @click="markWatched()">Mark Watched</button>'
-  + '</div>',
+  template: '#movie',
   computed: {
     getImageSource() {
       return 'data:image/jpeg;base64,' + this.movie.poster;
@@ -36,14 +30,15 @@ Vue.component('movie-view', {
 
 Vue.component('movie-list', {
   props: ['toWatch', 'watched'],
-  template: '<div>'
-  + '<div id="to-watch" class="movie-list">'
-  + '<movie-view v-for="movie in toWatch" :movie="movie" :key="movie.id"/>'
-  + '</div>'
-  + '<div id="watched" class="movie-list">'
-  + '<movie-view v-for="movie in watched" :movie="movie" :key="movie.id"/>'
-  + '</div>'
-  + '</div>'
+  template: '#movie-list',
+  computed: {
+    isToWatchEmpty() {
+        return (this.toWatch === 'undefined' || this.toWatch.length <= 0);
+    },
+    isWatchedEmpty() {
+        return (this.watched === 'undefined' || this.watched.length <= 0);
+    }
+  }
 });
 
 new Vue({

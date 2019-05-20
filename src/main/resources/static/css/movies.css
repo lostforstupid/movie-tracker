@@ -18,6 +18,19 @@
   text-align: center;
 }
 
+.movie-list-header {
+  line-height: 2;
+  margin-top: 15px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.placeholder-text {
+  line-height: 1;
+  color: #808080;
+  letter-spacing: 2px;
+}
+
 button {
   -moz-box-shadow: inset 0 1px 21px -2px #f7c5c0;
   -webkit-box-shadow: inset 0 1px 21px -2px #f7c5c0;
