@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="/css/reset.css"/>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" type="text/css" href="/css/movies.css"/>
+    <script th:inline="javascript">
+        let data = [[${data}]];
+    </script>
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+
+    <div id="app"></div>
+
+    <template id="movie-details">
+        <div>
+            <v-toolbar class="toolbar">
+                <img class="profile-picture" :src="getProfilePicture"/>
+                <div class="toolbar-buttons">
+                    <v-btn small href="/">Movies</v-btn>
+                    <v-btn small href="/library">My movie library</v-btn>
+                </div>
+            </v-toolbar>
+            <br>
+            <div class="movie-details-card">
+                <img class="movie-details-poster" :src="getImageSource">
+                <div>
+                    <h1 class="movie-details-card-header">{{ name }}</h1>
+                    <p class="movie-details-card-text">{{ description }}</p>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/movie.js"></script>
+</body>
+</html>

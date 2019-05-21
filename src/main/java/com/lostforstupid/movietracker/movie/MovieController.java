@@ -25,6 +25,11 @@ public class MovieController {
     return movieService.getAllMovies(userId);
   }
 
+  @GetMapping("/{movieId}")
+  public MovieView getMovie(@RequestParam String userId, @PathVariable String movieId) {
+    return movieService.getMovie(movieId, userId);
+  }
+
   @PostMapping
   public Movie createNewMovie(MovieForm movieForm) throws Exception {
     return movieService.create(movieForm);

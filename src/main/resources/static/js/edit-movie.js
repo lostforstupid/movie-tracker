@@ -12,7 +12,7 @@ new Vue({
       formData.append('description', this.description);
       formData.append('poster', this.poster);
 
-      instance.put(MOVIES_URL, formData, {
+      instance.put(MOVIES_URL + "/" + data.id, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

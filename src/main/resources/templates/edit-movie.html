@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <title>Edit a movie</title>
   <link rel="stylesheet" type="text/css" href="/css/reset.css">
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
   <link rel="stylesheet" type="text/css" href="/css/movies.css">
   <script th:inline="javascript">
     let data = [[${data}]];
@@ -12,6 +17,7 @@
 <body>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
 
   <div>
     <form id="add-form" @submit.prevent="processForm">
@@ -26,7 +32,7 @@
       <input type="file" name="poster" ref="file" @change="handleFileUpload"><br>
       <br>
 
-      <input type="submit" value="Add">
+      <input type="submit" value="Save">
 
     </form>
   </div>
@@ -34,6 +40,6 @@
   <a href="/">Go back to movie list</a>
 
   <script src="/js/api.js"></script>
-  <script src="/js/add-movie.js"></script>
+  <script src="/js/edit-movie.js"></script>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package com.lostforstupid.movietracker.user_movie;
 
+import com.lostforstupid.movietracker.exceptions.MovieTrackerException;
 import com.lostforstupid.movietracker.movie.Movie;
 import com.lostforstupid.movietracker.movie.MovieRepository;
 import com.lostforstupid.movietracker.movie.MovieUtils;
@@ -11,11 +12,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.lostforstupid.movietracker.utils.ErrorMessage;
 import lombok.AllArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+
+import static com.lostforstupid.movietracker.utils.ErrorMessage.CAN_NOT_ADD_MOVIE_TO_LIBRARY_MOVIE_NOT_FOUND;
 
 @SuppressWarnings("FieldCanBeLocal")
 @AllArgsConstructor
@@ -28,6 +33,7 @@ class UserMovieService {
   private final UserRepository userRepository;
   private final SequenceService sequenceService;
   private final MongoTemplate mongoTemplate;
+  private final Environment environment;
 
   private final String USER_ID_CRITERIA = "userId";
 
@@ -49,11 +55,11 @@ class UserMovieService {
   }
 
   List<UserLibraryMovieView> getUserMoviesMarkedWatched(String userId) {
-      return getUserMoviesByStatus(UserMovieStatus.TO_WATCH, userId);
+      return getUserMoviesByStatus(UserMovieStatus.WATCHED, userId);
   }
 
   List<UserLibraryMovieView> getUserMoviesMarkedToWatch(String userId) {
-      return getUserMoviesByStatus(UserMovieStatus.WATCHED, userId);
+      return getUserMoviesByStatus(UserMovieStatus.TO_WATCH, userId);
   }
 
   private List<UserLibraryMovieView> getUserMoviesByStatus(UserMovieStatus movieStatus, String userId) {
@@ -65,14 +71,14 @@ class UserMovieService {
             .collect(Collectors.toList());
   }
 
-  UserMovie addMovieToUserLibrary(String userId, String movieId) throws Exception {
+  UserMovie addMovieToUserLibrary(String userId, String movieId) {
 
     Long movieIdAsLong = new Long(movieId);
 
     validateIds(userId, movieIdAsLong);
 
     if (userMovieRepository.findByUserIdAndMovieId(userId, movieIdAsLong) != null) {
-      throw new Exception("This movie is already in this user's library");
+      throw new MovieTrackerException(environment, ErrorMessage.MOVIE_ALREADY_IN_USER_LIBRARY);
     }
 
     UserMovie userMovie = new UserMovie();
@@ -84,7 +90,7 @@ class UserMovieService {
     return userMovieRepository.save(userMovie);
   }
 
-  void removeMovieFromUserLibrary(String userId, String movieId) throws Exception {
+  void removeMovieFromUserLibrary(String userId, String movieId) {
 
     Long movieIdAsLong = new Long(movieId);
 
@@ -93,32 +99,34 @@ class UserMovieService {
     UserMovie userMovie = userMovieRepository.findByUserIdAndMovieId(userId, movieIdAsLong);
 
     if (userMovie == null) {
-      throw new Exception("No such movie in this user's library");
+      throw new MovieTrackerException(environment, ErrorMessage.NO_SUCH_MOVIE_IN_USER_LIBRARY);
     }
 
     userMovieRepository.delete(userMovie);
   }
 
-  void updateStatus(String userId, String movieIdAsString, String statusAsString) throws Exception {
+  void updateStatus(String userId, String movieIdAsString, String statusAsString) {
 
     Long movieId = new Long(movieIdAsString);
     UserMovieStatus status = UserMovieStatus.valueOf(statusAsString);
     UserMovie userMovie = userMovieRepository.findByUserIdAndMovieId(userId, movieId);
 
     if (userMovie == null) {
-        throw new Exception("Can't update movie status, movie wasn't found.");
+        throw new MovieTrackerException(environment, ErrorMessage.CAN_NOT_UPDATE_STATUS_MOVIE_NOT_FOUND);
     }
 
     userMovie.setStatus(status);
     userMovieRepository.save(userMovie);
   }
 
-  private void validateIds(String userId, Long movieId) throws Exception {
+  private void validateIds(String userId, Long movieId) {
 
-    userRepository.findById(userId).orElseThrow(() -> new Exception("Can't add movie to library, user wasn't found."));
+    userRepository.findById(userId).orElseThrow(() ->
+            new MovieTrackerException(environment, ErrorMessage.CAN_NOT_ADD_MOVIE_TO_LIBRARY_USER_NOT_FOUND));
 
     movieRepository.findById(movieId)
-        .orElseThrow(() -> new Exception("Can't add movie to library, movie wasn't found."));
+        .orElseThrow(() ->
+                new MovieTrackerException(environment, CAN_NOT_ADD_MOVIE_TO_LIBRARY_MOVIE_NOT_FOUND));
 
   }
 }

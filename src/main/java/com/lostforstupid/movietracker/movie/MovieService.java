@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @AllArgsConstructor
 @Service
-class MovieService {
+public class MovieService {
 
   private final MovieRepository movieRepository;
   private final MovieUtils movieUtils;
@@ -32,6 +32,18 @@ class MovieService {
         .collect(Collectors.toList());
   }
 
+  public MovieView getMovie(String movieIdAsString, String userId) {
+
+    Long movieId = Long.parseLong(movieIdAsString);
+    Optional<Movie> movie = movieRepository.findById(movieId);
+
+    if (!movie.isPresent()) {
+      throw new MovieTrackerException(environment, ErrorMessage.MOVIE_WAS_NOT_FOUND);
+    }
+
+    return movieUtils.convertMovieDomainToView(movie.get(), userId);
+  }
+
   Movie create(MovieForm movieForm) throws Exception {
 
     Movie movie = new Movie();
@@ -44,8 +56,8 @@ class MovieService {
     Long id = new Long(idAsString);
 
     Movie movie = movieRepository.findById(id)
-        .orElseThrow(() -> new Exception("Can't update the movie. "
-            + "No movie with id " + id + " found in the database."));
+        .orElseThrow(() ->
+                new MovieTrackerException(environment, ErrorMessage.CAN_NOT_UPDATE_MOVIE_NO_SUCH_ID));
 
     return save(movieForm, movie);
   }

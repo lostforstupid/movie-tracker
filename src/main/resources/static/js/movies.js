@@ -9,6 +9,12 @@ Vue.component('movie-view', {
     addToUserLibrary: function () {
       axios.post(LIBRARY_URL + "/" + data.user.id
           + ADD_TO_LIBRARY_URL + this.movie.id);
+    },
+    editMovie: function() {
+      window.location.href = OPEN_EDIT_MOVIE_PAGE + this.movie.id;
+    },
+    viewMovieDetails: function() {
+      window.location.href = this.movie.id + "?userId=" + data.user.id;
     }
   },
   computed: {
@@ -23,7 +29,12 @@ Vue.component('movie-view', {
 
 Vue.component('movie-list', {
   props: ['movies'],
-  template: '#movie-list'
+  template: '#movie-list',
+  computed: {
+      getProfilePicture() {
+        return data.user.profilePictureUrl;
+      }
+  }
 });
 
 new Vue({

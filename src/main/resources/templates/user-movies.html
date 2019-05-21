@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <title></title>
   <link rel="stylesheet" type="text/css" href="/css/reset.css">
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
   <link rel="stylesheet" type="text/css" href="/css/movies.css">
   <script th:inline="javascript">
     var data = [[${data}]];
@@ -12,13 +17,20 @@
 <body>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
-  <a href="/">Main page</a>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
 
   <div id="app"></div>
 
   <template id="movie-list">
     <div>
+      <v-toolbar class="toolbar">
+        <img class="profile-picture" :src="getProfilePicture"/>
+        <div class="toolbar-buttons">
+          <v-btn small href="/">Movies</v-btn>
+        </div>
+      </v-toolbar>
+      <br>
+
       <h1 class="movie-list-header">To Watch</h1>
       <br/>
       <p class="placeholder-text" v-if="isToWatchEmpty">No movies marked to watch in your library</p>
@@ -38,13 +50,17 @@
   </template>
 
   <template id="movie">
-    <div class="movie">
-      <img :src="getImageSource">
-      <p>{{ movie.name }}</p>
-      <button @click="removeMovieFromLibrary()">Remove</button><br>
-      <button v-if="ifMovieIsWatched" @click="markToWatch()">Mark To Watch</button>
-      <button v-else @click="markWatched()">Mark Watched</button>
-    </div>
+    <v-card class="movie-card">
+      <div class="movie">
+        <img :src="getImageSource">
+        <h1>{{ movie.name }}</h1>
+        <v-btn small v-if="ifMovieIsWatched" @click="markToWatch()">Mark To Watch</v-btn>
+        <br v-if="ifMovieIsWatched"/>
+        <v-btn small v-if="!ifMovieIsWatched" @click="markWatched()">Mark Watched</v-btn>
+        <br v-if="!ifMovieIsWatched"/>
+        <v-btn small @click="removeMovieFromLibrary()">Remove</v-btn>
+      </div>
+    </v-card>
   </template>
 
   <script src="/js/api.js"></script>

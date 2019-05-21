@@ -37,6 +37,9 @@ Vue.component('movie-list', {
     },
     isWatchedEmpty() {
         return (this.watched === 'undefined' || this.watched.length <= 0);
+    },
+    getProfilePicture() {
+        return data.user.profilePictureUrl;
     }
   }
 });

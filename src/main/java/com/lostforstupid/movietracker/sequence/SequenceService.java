@@ -17,11 +17,12 @@ public class SequenceService {
   private final MongoOperations mongoOperations;
 
   private final String SEQUENCE_KEY = "sequence";
+  private final String ID_SUFFIX = "_id";
 
   public long generateSequence(String sequenceName) {
 
     Sequence counter = mongoOperations
-        .findAndModify(query(where("_id").is(sequenceName)), new Update().inc(SEQUENCE_KEY, 1),
+        .findAndModify(query(where(ID_SUFFIX).is(sequenceName)), new Update().inc(SEQUENCE_KEY, 1),
             options().returnNew(true).upsert(true), Sequence.class);
 
     return counter.getSequence();
