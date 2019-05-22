@@ -62,7 +62,7 @@ class UserMovieService {
       return getUserMoviesByStatus(UserMovieStatus.TO_WATCH, userId);
   }
 
-  private List<UserLibraryMovieView> getUserMoviesByStatus(UserMovieStatus movieStatus, String userId) {
+  List<UserLibraryMovieView> getUserMoviesByStatus(UserMovieStatus movieStatus, String userId) {
 
     List<UserLibraryMovieView> allUserMovies = getUserMovies(userId);
 
