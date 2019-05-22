@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <title>Add a movie</title>
@@ -10,31 +10,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 
   <link rel="stylesheet" type="text/css" href="/css/movies.css">
+
+  <script th:inline="javascript">
+    let data = [[${data}]];
+  </script>
 </head>
 <body>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
 
-  <div>
-    <form id="add-form" @submit.prevent="processForm">
-
-      <label>Name</label><br>
-      <input type="text" name="name" v-model="name"><br>
-
-      <label>Description</label><br>
-      <input type="text" name="description" v-model="description"><br>
-
-      <label>File</label><br>
-      <input type="file" name="poster" ref="file" @change="handleFileUpload"><br>
+  <div id="app">
+    <div>
+      <v-toolbar class="toolbar">
+        <img class="profile-picture" :src="getProfilePicture"/>
+        <div class="toolbar-buttons">
+          <v-btn small href="/">Movies</v-btn>
+          <v-btn small href="/library">My movie library</v-btn>
+        </div>
+      </v-toolbar>
       <br>
 
-      <input type="submit" value="Add">
+      <v-card class="add-form-card">
+        <v-form id="add-form" @submit.prevent="processForm">
 
-    </form>
+          <h1>Add a movie</h1>
+
+          <label>Name</label><br>
+          <v-text-field type="text" name="name" v-model="name"></v-text-field>
+          <br>
+
+          <label>Description</label><br>
+          <v-text-field name="description" v-model="description"></v-text-field>
+          <br>
+
+          <label>File</label><br>
+          <input class="file-input" type="file" name="poster" ref="file" @change="handleFileUpload"><br>
+          <br>
+
+          <v-btn small @click="processForm">Add</v-btn>
+
+        </v-form>
+      </v-card>
+    </div>
   </div>
-
-  <a href="/">Go back to movie list</a>
 
   <script src="/js/api.js"></script>
   <script src="/js/add-movie.js"></script>

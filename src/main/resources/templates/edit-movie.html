@@ -19,25 +19,40 @@
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
 
-  <div>
-    <form id="add-form" @submit.prevent="processForm">
+  <div id="app">
+      <div>
+          <v-toolbar class="toolbar">
+              <img class="profile-picture" :src="getProfilePicture"/>
+              <div class="toolbar-buttons">
+                  <v-btn small href="/">Movies</v-btn>
+                  <v-btn small href="/library">My movie library</v-btn>
+              </div>
+          </v-toolbar>
+          <br>
 
-      <label>Name</label><br>
-      <input type="text" name="name" v-model="name"><br>
+          <v-card class="add-form-card">
+              <v-form id="add-form" @submit.prevent="processForm">
 
-      <label>Description</label><br>
-      <input type="text" name="description" v-model="description"><br>
+                  <h1>Edit movie information</h1>
 
-      <label>File</label><br>
-      <input type="file" name="poster" ref="file" @change="handleFileUpload"><br>
-      <br>
+                  <label>Name</label><br>
+                  <v-text-field type="text" name="name" v-model="name"></v-text-field>
+                  <br>
 
-      <input type="submit" value="Save">
+                  <label>Description</label><br>
+                  <v-text-field name="description" v-model="description"></v-text-field>
+                  <br>
 
-    </form>
+                  <label>File</label><br>
+                  <input class="file-input" type="file" name="poster" ref="file" @change="handleFileUpload"><br>
+                  <br>
+
+                  <v-btn small @click="processForm">Save</v-btn>
+
+              </v-form>
+          </v-card>
+      </div>
   </div>
-
-  <a href="/">Go back to movie list</a>
 
   <script src="/js/api.js"></script>
   <script src="/js/edit-movie.js"></script>

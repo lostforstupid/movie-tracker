@@ -101,5 +101,38 @@ button {
   margin-left: 15px;
 }
 
+.add-form-card {
+  width: 350px;
+  margin-top: 50px;
+  margin-left: 50px;
+  padding: 25px;
+}
+
+.add-form-card h1 {
+  line-height: 1.5;
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.add-form-card label {
+  font-size: 15px;
+  letter-spacing: 2px;
+}
+
+.add-form-card input {
+  margin-bottom: 10px;
+}
+
+.add-form-card textarea {
+  margin-bottom: 10px;
+}
+
+.file-input {
+  margin-top: 10px;
+}
+
 
 

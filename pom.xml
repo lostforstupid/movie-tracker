@@ -24,6 +24,7 @@
     <oauth2.version>2.1.1.RELEASE</oauth2.version>
     <mockito.version>2.8.9</mockito.version>
     <powermock.version>1.7.4</powermock.version>
+    <mongo-java-driver.version>3.10.0</mongo-java-driver.version>
   </properties>
 
   <!-- s p r i n g -->
@@ -49,6 +50,13 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-thymeleaf</artifactId>
+    </dependency>
+
+    <!-- DB -->
+    <dependency>
+      <groupId>org.mongodb</groupId>
+      <artifactId>mongo-java-driver</artifactId>
+      <version>${mongo-java-driver.version}</version>
     </dependency>
 
     <!-- other -->

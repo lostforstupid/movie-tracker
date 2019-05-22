@@ -1,5 +1,5 @@
 new Vue({
-  el: "#add-form",
+  el: "#app",
   data: {
     name: '',
     description: '',
@@ -27,6 +27,11 @@ new Vue({
     },
     handleFileUpload: function (event) {
       this.poster = event.target.files[0];
+    }
+  },
+  computed: {
+    getProfilePicture() {
+      return data.user.profilePictureUrl;
     }
   }
 });

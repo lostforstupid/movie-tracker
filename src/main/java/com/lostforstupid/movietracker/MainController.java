@@ -33,7 +33,7 @@ public class MainController {
   public String main(Model model, @AuthenticationPrincipal User user) {
 
     model.addAttribute(DATA, getData(user));
-    return "index";
+    return "movies";
   }
 
   @GetMapping("/{movieId}")
