@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
 <head>
   <meta charset="UTF-8">
   <title></title>
@@ -21,30 +21,57 @@
 
   <div id="app"></div>
 
-  <template id="movie-list">
+  <template id="user-library">
     <div>
-      <v-toolbar class="toolbar">
+      <v-toolbar class="toolbar" tabs>
         <img class="profile-picture" :src="getProfilePicture"/>
         <div class="toolbar-buttons">
           <v-btn small href="/">Movies</v-btn>
         </div>
       </v-toolbar>
-      <br>
 
-      <h1 class="movie-list-header">To Watch</h1>
-      <br/>
+      <v-card class="movie-list-tabs-card">
+        <v-expansion-panel v-model="panel" expand>
+
+          <v-expansion-panel-content v-for="item in items">
+
+            <template v-slot:header>
+              <div>
+                <p class="expansion-panel-name">{{ item }}</p>
+              </div>
+            </template>
+
+            <v-card>
+              <div v-if="!isWatched(item)">
+                <to-watch-movie-list  :to-watch-movie-list="toWatch"/>
+              </div>
+              <div v-else>
+                <watched-movie-list :watched-movie-list="watched"/>
+              </div>
+            </v-card>
+
+          </v-expansion-panel-content>
+
+        </v-expansion-panel>
+      </v-card>
+
+    </div>
+  </template>
+
+  <template id="to-watch-movie-list">
+    <div>
       <p class="placeholder-text" v-if="isToWatchEmpty">No movies marked to watch in your library</p>
-
       <div id="to-watch" class="movie-list">
-        <movie-view v-for="movie in toWatch" :movie="movie" :key="movie.id"/>
+        <movie-view v-for="movie in toWatchMovieList" :movie="movie" :key="movie.id"/>
       </div>
+    </div>
+  </template>
 
-      <h1 class="movie-list-header">Watched</h1>
-      <br/>
+  <template id="watched-movie-list">
+    <div>
       <p class="placeholder-text" v-if="isWatchedEmpty">No movies marked watched in your library</p>
-
       <div id="watched" class="movie-list">
-        <movie-view v-for="movie in watched" :movie="movie" :key="movie.id"/>
+        <movie-view v-for="movie in watchedMovieList" :movie="movie" :key="movie.id"/>
       </div>
     </div>
   </template>

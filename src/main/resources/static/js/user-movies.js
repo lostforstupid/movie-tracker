@@ -28,16 +28,41 @@ Vue.component('movie-view', {
   }
 });
 
-Vue.component('movie-list', {
-  props: ['toWatch', 'watched'],
-  template: '#movie-list',
+Vue.component('to-watch-movie-list', {
+  props: ['toWatchMovieList'],
+  template: '#to-watch-movie-list',
   computed: {
     isToWatchEmpty() {
-        return (this.toWatch === 'undefined' || this.toWatch.length <= 0);
-    },
+        return (this.toWatchMovieList === 'undefined' || this.toWatchMovieList.length <= 0);
+    }
+  }
+});
+
+Vue.component('watched-movie-list', {
+  props: ['watchedMovieList'],
+  template: '#watched-movie-list',
+  computed: {
     isWatchedEmpty() {
-        return (this.watched === 'undefined' || this.watched.length <= 0);
-    },
+      return (this.watchedMovieList === 'undefined' || this.watchedMovieList.length <= 0);
+    }
+  }
+});
+
+Vue.component('user-library', {
+  props: ['toWatch', 'watched'],
+  data() {
+    return {
+        items: ['To Watch', 'Watched'],
+        panel: [true, false]
+    }
+  },
+  template: '#user-library',
+  methods: {
+    isWatched: function(name) {
+      return name === 'Watched';
+    }
+  },
+  computed: {
     getProfilePicture() {
         return data.user.profilePictureUrl;
     }
@@ -46,7 +71,7 @@ Vue.component('movie-list', {
 
 new Vue({
   el: '#app',
-  template: '<movie-list :toWatch="toWatch" :watched="watched"/>',
+  template: '<user-library :toWatch="toWatch" :watched="watched"/>',
   data: {
     toWatch: [],
     watched: []

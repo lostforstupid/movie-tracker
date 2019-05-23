@@ -134,5 +134,16 @@ button {
   margin-top: 10px;
 }
 
+.movie-list-tabs-card {
+  margin: 50px 50px 50px 50px;
+}
+
+.expansion-panel-name {
+  margin-top: 15px;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
 
 
