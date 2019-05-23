@@ -36,11 +36,11 @@
                   <h1>Edit movie information</h1>
 
                   <label>Name</label><br>
-                  <v-text-field type="text" name="name" v-model="name"></v-text-field>
+                  <v-text-field type="text" name="name" value="this.name" v-model="name"></v-text-field>
                   <br>
 
                   <label>Description</label><br>
-                  <v-text-field name="description" v-model="description"></v-text-field>
+                  <v-textarea name="description" value="this.description" v-model="description"></v-textarea>
                   <br>
 
                   <label>File</label><br>

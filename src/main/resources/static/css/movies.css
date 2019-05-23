@@ -87,6 +87,18 @@ button {
   padding: 5px 25px;
 }
 
+.app-logo {
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.profile-picture-wrapper {
+  float: right;
+  margin-left: 15px;
+}
+
 .profile-picture {
   height: 40px;
   border-radius: 50%;
@@ -98,6 +110,10 @@ button {
 }
 
 .toolbar-buttons {
+  margin-left: 15px;
+}
+
+.toolbar-divider {
   margin-left: 15px;
 }
 

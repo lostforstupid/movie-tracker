@@ -1,8 +1,8 @@
 new Vue({
   el: "#app",
   data: {
-    name: '',
-    description: '',
+    name: data.name,
+    description: data.description,
     poster: null
   },
   methods: {
