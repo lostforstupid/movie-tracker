@@ -48,11 +48,30 @@ public class MovieServiceTest {
   @Mock
   private Environment environment;
 
+  private List<Movie> movies;
+
+  private Movie movie;
+
+  private Movie movie1;
+  private Movie movie2;
+
+  private MovieView movieView1;
+  private MovieView movieView2;
+
   private String userId;
   private String movieId;
 
+  private Long id1;
+  private Long id2;
+
   private String movieName1;
   private String movieName2;
+
+  private Integer year1;
+  private Integer year2;
+
+  private String yearAsString1;
+  private String yearAsString2;
 
   @Before
   public void setUp() {
@@ -65,22 +84,33 @@ public class MovieServiceTest {
 
     movieName1 = "name1";
     movieName2 = "name2";
+
+    movie = new Movie(1L, "testName", "testDescription",
+            "testPosterName", 1995, null);
+
+    id1 = 1L;
+    id2 = 2L;
+
+    year1 = 2019;
+    yearAsString1 = String.valueOf(year1);
+
+    year2 = 1995;
+    yearAsString2 = String.valueOf(year2);
+
+    movies = new ArrayList<>();
+    movie1 = new Movie(id1, movieName1, null, null, year1, null);
+    movies.add(movie1);
+    movie2 = new Movie(id2, movieName2, null, null, year2, null);
+    movies.add(movie2);
+
+    movieView1 = new MovieView(Long.toString(id1), movieName1, null,
+            null, yearAsString1, null, false);
+    movieView2 = new MovieView(Long.toString(id2), movieName2, null,
+            null, yearAsString2, null, true);
   }
 
   @Test
   public void getAllMovies() {
-
-    Long id1 = 1L;
-    Long id2 = 2L;
-
-    List<Movie> movies = new ArrayList<>();
-    Movie movie1 = new Movie(id1, movieName1, null, null);
-    movies.add(movie1);
-    Movie movie2 = new Movie(id2, movieName2, null, null);
-    movies.add(movie2);
-
-    MovieView movieView1 = new MovieView(Long.toString(id1), movieName1, null, null, false);
-    MovieView movieView2 = new MovieView(Long.toString(id2), movieName2, null, null, true);
 
     when(movieRepository.findAll()).thenReturn(movies);
     when(movieUtils.convertMovieDomainToView(movie1, userId)).thenReturn(movieView1);
@@ -101,8 +131,10 @@ public class MovieServiceTest {
     String newName = "newName";
     String newDescription = "newDescription";
 
-    Movie movie = new Movie(1L, "testName", "testDescription", "testPosterName");
-    MovieForm movieForm = new MovieForm(newName, newDescription, null);
+    String yearAsString = String.valueOf(movie.getYear());
+
+    MovieForm movieForm = new MovieForm(newName, newDescription, null,
+            yearAsString,null);
 
     movieService.save(movieForm, movie);
 
@@ -112,8 +144,6 @@ public class MovieServiceTest {
   @SneakyThrows
   @Test(expected = MovieTrackerException.class)
   public void save_nameIsNull_MovieTrackerException_expected() {
-
-    Movie movie = new Movie(1L, "testName", "testDescription", "testPosterName");
     movieService.save(new MovieForm(), movie);
   }
 
@@ -121,7 +151,6 @@ public class MovieServiceTest {
   public void delete_success() {
 
     Long movieIdAsLong = Long.parseLong(movieId);
-    Movie movie = new Movie(movieIdAsLong, "name", "testDescription", null);
     Optional<Movie> queryResult = Optional.of(movie);
 
     when(movieRepository.findById(movieIdAsLong)).thenReturn(queryResult);

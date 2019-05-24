@@ -2,7 +2,9 @@ package com.lostforstupid.movietracker.movie;
 
 import com.lostforstupid.movietracker.movie.dto.MovieForm;
 import com.lostforstupid.movietracker.movie.dto.MovieView;
+
 import java.util.List;
+
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,5 +45,10 @@ public class MovieController {
   @DeleteMapping("/{id}")
   public void deleteMovie(@PathVariable String id) {
     movieService.delete(id);
+  }
+
+  @GetMapping("/genres")
+  public List<String> getAllGenres() {
+    return movieService.getAllGenres();
   }
 }

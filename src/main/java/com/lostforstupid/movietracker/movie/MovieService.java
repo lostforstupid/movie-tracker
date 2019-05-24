@@ -5,6 +5,8 @@ import com.lostforstupid.movietracker.movie.dto.MovieForm;
 import com.lostforstupid.movietracker.movie.dto.MovieView;
 import com.lostforstupid.movietracker.poster.PosterService;
 import com.lostforstupid.movietracker.sequence.SequenceService;
+
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -44,6 +46,13 @@ public class MovieService {
     return movieUtils.convertMovieDomainToView(movie.get(), userId);
   }
 
+  List<String> getAllGenres() {
+
+    return Arrays.stream(Genre.values())
+            .map(Genre::getDisplayName)
+            .collect(Collectors.toList());
+  }
+
   Movie create(MovieForm movieForm) throws Exception {
 
     Movie movie = new Movie();
@@ -72,6 +81,8 @@ public class MovieService {
 
     movie.setName(name);
     movie.setDescription(movieForm.getDescription());
+    movie.setYear(Integer.parseInt(movieForm.getYear()));
+    movie.setGenres(movieUtils.getGenresByNames(movieForm.getGenres()));
 
     MultipartFile poster = movieForm.getPoster();
 

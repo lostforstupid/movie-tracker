@@ -3,7 +3,16 @@ new Vue({
   data: {
     name: data.name,
     description: data.description,
-    poster: null
+    poster: null,
+    year: data.year,
+    genres: [],
+    selectedGenres: data.genres
+  },
+  created: function() {
+    axios.get(MOVIES_URL + GENRES).then(response => {
+      let genreList = response.data;
+      genreList.forEach(genre => this.genres.push(genre));
+    });
   },
   methods: {
     processForm: function() {
@@ -11,6 +20,8 @@ new Vue({
       formData.append('name', this.name);
       formData.append('description', this.description);
       formData.append('poster', this.poster);
+      formData.append('year', this.year);
+      formData.append('genres', this.selectedGenres);
 
       instance.put(MOVIES_URL + "/" + data.id, formData, {
         headers: {

@@ -38,6 +38,10 @@
                 <img class="movie-details-poster" :src="getImageSource">
                 <div>
                     <h1 class="movie-details-card-header">{{ name }}</h1>
+                    <p class="movie-year">{{ year }}</p>
+                    <div v-for="genre in genres">
+                        <span>{{ genre }} </span>
+                    </div>
                     <p class="movie-details-card-text">{{ description }}</p>
                 </div>
             </div>

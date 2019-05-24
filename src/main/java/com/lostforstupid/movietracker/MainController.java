@@ -28,6 +28,8 @@ public class MainController {
   private final String POSTER = "poster";
   private final String NAME = "name";
   private final String DESCRIPTION = "description";
+  private final String YEAR = "year";
+  private final String GENRES = "genres";
 
   @GetMapping
   public String main(Model model, @AuthenticationPrincipal User user) {
@@ -66,6 +68,8 @@ public class MainController {
     data.put(NAME, movie.getName());
     data.put(DESCRIPTION, movie.getDescription());
     data.put(POSTER, movie.getPoster());
+    data.put(YEAR, movie.getYear());
+    data.put(GENRES, movie.getGenres());
 
     model.addAttribute(DATA, data);
 

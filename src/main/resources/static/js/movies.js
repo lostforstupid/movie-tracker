@@ -57,7 +57,7 @@ new Vue({
 
     axios.get(MOVIES_URL, { params }).then(response => {
       let movieList = response.data;
-      movieList.forEach(movie => this.movies.push(movie))
-    })
+      movieList.forEach(movie => this.movies.push(movie));
+    });
   }
 });

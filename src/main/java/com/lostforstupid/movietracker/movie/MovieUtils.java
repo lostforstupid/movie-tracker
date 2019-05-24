@@ -9,6 +9,9 @@ import com.lostforstupid.movietracker.user_movie.UserMovieStatus;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @AllArgsConstructor
 @Service
 public class MovieUtils {
@@ -21,6 +24,8 @@ public class MovieUtils {
     MovieView movieView = new MovieView();
     movieView.setName(movie.getName());
     movieView.setDescription(movie.getDescription());
+    movieView.setYear(Integer.toString(movie.getYear()));
+    movieView.setGenres(getGenreNames(movie.getGenres()));
 
     Long movieId = movie.getId();
     String movieIdAsString = Long.toString(movieId);
@@ -42,6 +47,8 @@ public class MovieUtils {
     UserLibraryMovieView userLibraryMovieView = new UserLibraryMovieView();
     userLibraryMovieView.setName(movie.getName());
     userLibraryMovieView.setDescription(movie.getDescription());
+    userLibraryMovieView.setYear(Integer.toString(movie.getYear()));
+    userLibraryMovieView.setGenres(getGenreNames(movie.getGenres()));
 
     Long movieId = movie.getId();
     String movieIdAsString = Long.toString(movieId);
@@ -58,5 +65,32 @@ public class MovieUtils {
     }
 
     return userLibraryMovieView;
+  }
+
+  List<Genre> getGenresByNames(List<String> genreNames) {
+
+    List<Genre> genres = new ArrayList<>();
+
+    for (String genreName : genreNames) {
+      for (Genre genre : Genre.values()) {
+
+        if (genreName.equals(genre.getDisplayName())) {
+          genres.add(genre);
+        }
+      }
+    }
+
+    return genres;
+  }
+
+  private List<String> getGenreNames(List<Genre> genres) {
+
+    List<String> genreNames = new ArrayList<>();
+
+    for (Genre genre : genres) {
+      genreNames.add(genre.getDisplayName());
+    }
+
+    return genreNames;
   }
 }

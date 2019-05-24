@@ -31,17 +31,26 @@
 }
 
 .movie-details-card-header {
-  line-height: 4;
+  margin-top: 20px;
+  line-height: 2;
   font-size: 25px;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 2px;
 }
 
-.movie-details-card-text {
-  margin-top: 15px;
-  line-height: 3;
+.movie-year {
+  margin-top: 10px;
   font-size: 15px;
+  font-weight: bold;
+}
+
+.movie-details-card-text {
+  margin-top: 35px;
+  width: 500px;
+  line-height: 1.75;
+  font-size: 15px;
+  text-indent: 20px;
 }
 
 .movie-card h1 {
@@ -74,6 +83,7 @@
 }
 
 .placeholder-text {
+  margin-left: 45px;
   line-height: 1;
   color: #808080;
   letter-spacing: 2px;
@@ -95,9 +105,12 @@ button {
 }
 
 .profile-picture {
-  margin-top: 12px;
   height: 40px;
   border-radius: 50%;
+}
+
+.main-page-profile-picture {
+    margin-top: 12px;
 }
 
 .toolbar {

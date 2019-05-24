@@ -43,6 +43,14 @@
           <v-text-field type="text" name="name" v-model="name"></v-text-field>
           <br>
 
+          <label>Year</label><br>
+          <v-text-field name="year" v-model="year"></v-text-field>
+          <br>
+
+          <label>Genres</label><br>
+          <v-select v-model="selectedGenres" :items="genres" attach chips multiple></v-select>
+          <br>
+
           <label>Description</label><br>
           <v-textarea name="description" v-model="description"></v-textarea>
           <br>
