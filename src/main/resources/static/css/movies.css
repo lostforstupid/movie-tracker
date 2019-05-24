@@ -95,6 +95,7 @@ button {
 }
 
 .profile-picture {
+  margin-top: 12px;
   height: 40px;
   border-radius: 50%;
 }
@@ -110,6 +111,15 @@ button {
 
 .toolbar-divider {
   margin-left: 15px;
+}
+
+#search-field {
+  width: 350px;
+}
+
+.search-icon {
+  margin: 12px 35px 0 10px;
+  height: 35px;
 }
 
 .add-form-card {

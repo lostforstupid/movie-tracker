@@ -29,8 +29,17 @@ Vue.component('movie-view', {
 
 Vue.component('movie-list', {
   props: ['movies'],
+  data: function () {
+    return {
+        search: ''
+    }
+  },
   template: '#movie-list',
   computed: {
+      getFilteredMovies() {
+        return this.movies.filter(movie => {
+          return movie.name.toLowerCase().includes(this.search.toLowerCase())});
+      },
       getProfilePicture() {
         return data.user.profilePictureUrl;
       }

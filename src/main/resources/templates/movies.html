@@ -31,13 +31,19 @@
           <v-btn small href="/add">Add a movie</v-btn>
         </div>
         <v-spacer></v-spacer>
-        <img class="profile-picture" :src="getProfilePicture"/>
+        <v-toolbar-items>
+          <v-text-field id="search-field" label="Search by name" v-model="search"></v-text-field>
+          <img id="search-icon" class="search-icon" src="/img/baseline-search-24px.svg"/>
+          <img class="profile-picture" :src="getProfilePicture"/>
+        </v-toolbar-items>
       </v-toolbar>
       <br>
+
       <div class="movie-list">
-        <movie-view v-for="movie in movies" :movie="movie" :key="movie.id"/>
+        <movie-view v-for="movie in getFilteredMovies" :movie="movie" :key="movie.id"/>
       </div>
     </div>
+
   </template>
 
   <template id="movie-view">
