@@ -94,11 +94,6 @@ button {
   letter-spacing: 3px;
 }
 
-.profile-picture-wrapper {
-  float: right;
-  margin-left: 15px;
-}
-
 .profile-picture {
   height: 40px;
   border-radius: 50%;

@@ -24,11 +24,14 @@
     <template id="movie-details">
         <div>
             <v-toolbar class="toolbar">
-                <img class="profile-picture" :src="getProfilePicture"/>
+                <h1 class="app-logo">Movie Tracker</h1>
+                <v-divider class="toolbar-divider" vertical=true></v-divider>
                 <div class="toolbar-buttons">
                     <v-btn small href="/">Movies</v-btn>
                     <v-btn small href="/library">My movie library</v-btn>
                 </div>
+                <v-spacer></v-spacer>
+                <img class="profile-picture" :src="getProfilePicture"/>
             </v-toolbar>
             <br>
             <div class="movie-details-card">
