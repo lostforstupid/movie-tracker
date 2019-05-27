@@ -24,7 +24,9 @@
   <template id="movie-list">
     <div>
       <v-toolbar class="toolbar">
-        <h1 class="app-logo">Movie Tracker</h1>
+        <a class="app-logo-link" href="/">
+          <h1 class="app-logo">Movie Tracker</h1>
+        </a>
         <v-divider class="toolbar-divider" vertical=true></v-divider>
         <div class="toolbar-buttons">
           <v-btn small href="/library">My movie library</v-btn>
@@ -43,21 +45,18 @@
         <movie-view v-for="movie in getFilteredMovies" :movie="movie" :key="movie.id"/>
       </div>
     </div>
-
   </template>
 
   <template id="movie-view">
     <v-card class="movie-card">
       <div class="movie">
-        <img :src="getImageSource" @click="viewMovieDetails()">
+        <img class="poster" :src="getImageSource" @click="viewMovieDetails()">
         <h1>{{ movie.name }}</h1>
-        <v-btn small v-if="ifMovieInLibrary" @click="addToUserLibrary()">Add to library</v-btn>
-        <br>
-        <v-btn small @click="viewMovieDetails()">Show details</v-btn>
-        <br>
-        <v-btn small @click="editMovie()">Edit</v-btn>
-        <br>
-        <v-btn small @click="deleteMovie()">Delete</v-btn>
+        <div>
+          <img class="movie-card-button" :src="'/img/baseline-add-24px.svg'" v-if="ifMovieInLibrary" @click="addToUserLibrary()"/>
+          <img class="movie-card-button" :src="'/img/baseline-edit-24px.svg'" @click="editMovie()"/>
+          <img class="movie-card-button" :src="'/img/baseline-delete-24px.svg'" @click="deleteMovie()"/>
+        </div>
       </div>
     </v-card>
   </template>

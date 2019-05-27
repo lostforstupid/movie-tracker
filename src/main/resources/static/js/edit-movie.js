@@ -19,9 +19,12 @@ new Vue({
       let formData = new FormData();
       formData.append('name', this.name);
       formData.append('description', this.description);
-      formData.append('poster', this.poster);
       formData.append('year', this.year);
       formData.append('genres', this.selectedGenres);
+
+      if (this.poster !== null) {
+        formData.append('poster', this.poster);
+      }
 
       instance.put(MOVIES_URL + "/" + data.id, formData, {
         headers: {

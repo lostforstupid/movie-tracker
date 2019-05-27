@@ -24,7 +24,9 @@
   <template id="user-library">
     <div>
       <v-toolbar class="toolbar">
+        <a class="app-logo-link" href="/">
           <h1 class="app-logo">Movie Tracker</h1>
+        </a>
           <v-divider class="toolbar-divider" vertical=true></v-divider>
           <div class="toolbar-buttons">
               <v-btn small href="/">Movies</v-btn>
@@ -82,7 +84,7 @@
   <template id="movie">
     <v-card class="movie-card">
       <div class="movie">
-        <img :src="getImageSource">
+        <img class="poster" :src="getImageSource">
         <h1>{{ movie.name }}</h1>
         <v-btn small v-if="ifMovieIsWatched" @click="markToWatch()">Mark To Watch</v-btn>
         <br v-if="ifMovieIsWatched"/>
