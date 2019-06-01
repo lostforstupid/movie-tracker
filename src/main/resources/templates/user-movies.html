@@ -86,11 +86,14 @@
       <div class="movie">
         <img class="poster" :src="getImageSource">
         <h1>{{ movie.name }}</h1>
-        <v-btn small v-if="ifMovieIsWatched" @click="markToWatch()">Mark To Watch</v-btn>
-        <br v-if="ifMovieIsWatched"/>
-        <v-btn small v-if="!ifMovieIsWatched" @click="markWatched()">Mark Watched</v-btn>
-        <br v-if="!ifMovieIsWatched"/>
-        <v-btn small @click="removeMovieFromLibrary()">Remove</v-btn>
+        <div>
+            <img class="movie-card-button" :src="'/img/baseline-playlist_add-24px.svg'"
+                 v-if="ifMovieIsWatched" @click="markToWatch()"/>
+            <img class="movie-card-button" :src="'/img/baseline-done-24px.svg'"
+                 v-if="!ifMovieIsWatched" @click="markWatched()"/>
+            <img class="movie-card-button" :src="'/img/baseline-remove_circle_outline-24px.svg'"
+                 @click="removeMovieFromLibrary()"/>
+        </div>
       </div>
     </v-card>
   </template>
